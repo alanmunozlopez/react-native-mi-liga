@@ -7,6 +7,9 @@ import {
 import {
   Teams
 } from './components/teams';
+import {
+  Team
+} from './components/team';
 
 const equipos = [
   {
@@ -54,18 +57,28 @@ export default class App extends React.Component {
     constructor(props) {
       super(props);
       this.state = {
-        teamVisible: true,
+        teamVisible: false,
+        selectedTeam: {},
       };
     }
+
+    toggleTeam() {
+      this.setState({
+        teamVisible: !this.state.teamVisible
+      });
+    }
+    
     render() {
         return (
           <View>
             <Teams
               equipos={equipos}
+              onSelectTeam={ () => this.toggleTeam()}
             />
-            <Modal
-              animationType="fade"
+            <Team
               visible={this.state.teamVisible}
+              equipo={this.state.selectedTeam}
+              onToggleTeam={() => this.toggleTeam()}
             />
           </View>
         );

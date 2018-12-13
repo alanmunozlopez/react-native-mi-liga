@@ -14,11 +14,12 @@ export class Teams extends Component {
       {
         this.props.equipos.map(equipo => (
           <ListItem
-          roundAvatar
-          avatar={{ uri: equipo.logo }}
-          key={equipo.id}
-          title={equipo.nombre}
-          subtitle={String(equipo.estado)}
+            roundAvatar
+            avatar={{ uri: equipo.logo }}
+            key={equipo.id}
+            title={equipo.nombre}
+            subtitle={String(equipo.estado)}
+            onPress={() => this.props.onSelectTeam()}
           />
         ))
       }
