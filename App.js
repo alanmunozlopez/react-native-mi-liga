@@ -62,17 +62,36 @@ export default class App extends React.Component {
       this.state = {
         teamVisible: false,
         selectedTeam: {},
+        offline: true,
       };
     }
 
     componentDidMount() {
-      NetInfo.addEventListener('connectionChange', connectionInfo => {
-        if(connectionInfo.type == 'none' || connectionInfo.type == 'unknown') {
-          Alert.alert('Dispositivo sin conexión a Internet');
+
+      // isConnected Listener
+      
+      NetInfo.isConnected.addEventListener('connectionChange',
+      isConnected => {
+
+        this.setState({
+          offline: !isConnected
+        });
+
+        if(isConnected) {
+          Alert.alert('Conectado a Internet');
         } else {
-          Alert.alert('Conectado a Internet vía ' + connectionInfo.type);
+          Alert.alert('Dispositivo sin conexión a Internet');
         }
-      });
+      })
+
+
+      // NetInfo.addEventListener('connectionChange', connectionInfo => {
+      //   if(connectionInfo.type == 'none' || connectionInfo.type == 'unknown') {
+      //     Alert.alert('Dispositivo sin conexión a Internet');
+      //   } else {
+      //     Alert.alert('Conectado a Internet vía ' + connectionInfo.type);
+      //   }
+      // });
     }
 
     displayNetworkInfo() {
@@ -137,6 +156,7 @@ export default class App extends React.Component {
               backgroundColor='#17a2b8'
               title='Enviar datos'
               onPress={() => this.saveData()}
+              disabled={this.state.offline}
             />
           </View>
         );
