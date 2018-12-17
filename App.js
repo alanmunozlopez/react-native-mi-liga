@@ -6,6 +6,7 @@ import {
   Vibration,
   View
 } from 'react-native';
+import { Button } from "react-native-elements";
 import {
   Teams
 } from './components/teams';
@@ -74,6 +75,25 @@ export default class App extends React.Component {
       });
     }
 
+    displayNetworkInfo() {
+      NetInfo.getConnectionInfo().then(connectionInfo => {
+        Alert.alert('Tipo de conexión ' +
+          connectionInfo.type +
+          ' EffectiveConnectionType: '+ connectionInfo.effectiveType);
+        // need android permissions
+      })
+    }
+
+    saveData() {
+      NetInfo.isConnected.fetch().then(isConnected => {
+        if(isConnected) {
+          Alert.alert('Datos Enviados');
+        } else {
+          Alert.alert('Verifica tu conexión');
+        }
+      })
+    }
+
     toggleTeam() {
       Vibration.vibrate([
         1000,
@@ -103,6 +123,20 @@ export default class App extends React.Component {
               visible={this.state.teamVisible}
               equipo={this.state.selectedTeam}
               onToggleTeam={() => this.toggleTeam()}
+            />
+            <Button
+              style={{marginTop: 20}}
+              icon={{ name:'ios-wifi', type:'ionicon' }}
+              backgroundColor='#4CAF50'
+              title='Mostrar información de red'
+              onPress={() => this.displayNetworkInfo()}
+            />
+            <Button
+              style={{ marginTop: 20}}
+              icon={{ name: 'ios-send', type: 'ionicon' }}
+              backgroundColor='#17a2b8'
+              title='Enviar datos'
+              onPress={() => this.saveData()}
             />
           </View>
         );
