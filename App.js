@@ -82,7 +82,7 @@ export default class App extends React.Component {
     
     render() {
         return (
-          <View>
+          <View style={ {marginTop: 42} }>
             <Teams
               equipos={equipos}
               onSelectTeam={equipo => this.displayTeam(equipo)}

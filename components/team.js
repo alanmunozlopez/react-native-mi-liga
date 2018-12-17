@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Modal, Text, View } from "react-native";
+import { Modal, Text, View, StyleSheet } from "react-native";
 import { Card, Button } from "react-native-elements";
 
 export class Team extends Component {
@@ -17,18 +17,19 @@ export class Team extends Component {
   render() {
     return (
       <Modal animationType="slide" visible={this.props.visible}>
-        <View>
+        <View style={styles.myModal}>
           <Card
             title={this.props.equipo.nombre}
             image={{
               uri: this.props.equipo.logo
             }}
           >
-            <Text>Jugadores: { this.getTotalPlayers(this.props.equipo.jugadores) } </Text>
-            <Text>Estado: {String(this.props.equipo.estado)}</Text>
+            <Text style={styles.description}>Jugadores: { this.getTotalPlayers(this.props.equipo.jugadores) } </Text>
+            <Text style={styles.description}>Estado: {String(this.props.equipo.estado)}</Text>
 
             <Button
-              backgroundColor="#03A9F4"
+              icon={{ name:'ios-football', type:'ionicon' }}
+              backgroundColor='#03A9F4'
               title="Cerrar vista"
               onPress={() => this.props.onToggleTeam()}
             />
@@ -38,3 +39,15 @@ export class Team extends Component {
     );
   }
 }
+
+const styles = StyleSheet.create({
+  myModal: {
+    backgroundColor: '#ccc',
+    flex: 1,
+    justifyContent: 'center',
+  },
+  description: {
+    marginBottom: 10,
+    textAlign: 'center',
+  }
+});
