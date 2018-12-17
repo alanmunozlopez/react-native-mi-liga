@@ -63,6 +63,7 @@ export default class App extends React.Component {
         teamVisible: false,
         selectedTeam: {},
         offline: true,
+        equipos: equipos,
       };
     }
 
@@ -103,14 +104,25 @@ export default class App extends React.Component {
       })
     }
 
-    saveData() {
+    getData() {
       NetInfo.isConnected.fetch().then(isConnected => {
         if(isConnected) {
-          Alert.alert('Datos Enviados');
+          // Alert.alert('Datos Enviados');
+          this.getRemoteTeams();
         } else {
           Alert.alert('Verifica tu conexión');
         }
       })
+    }
+
+    async getRemoteTeams() {
+      let response = await fetch('https://api-mi-liga.now.sh/api/equipos');
+
+      let responseJson = await response.json();
+
+      this.setState({
+        equipos: responseJson
+      });
     }
 
     toggleTeam() {
@@ -130,12 +142,14 @@ export default class App extends React.Component {
       })
       this.toggleTeam();
     }
+
+
     
     render() {
         return (
           <View style={ {marginTop: 42} }>
             <Teams
-              equipos={equipos}
+              equipos={this.state.equipos}
               onSelectTeam={equipo => this.displayTeam(equipo)}
             />
             <Team
@@ -155,7 +169,7 @@ export default class App extends React.Component {
               icon={{ name: 'ios-send', type: 'ionicon' }}
               backgroundColor='#17a2b8'
               title='Enviar datos'
-              onPress={() => this.saveData()}
+              onPress={() => this.getData()}
               disabled={this.state.offline}
             />
           </View>
