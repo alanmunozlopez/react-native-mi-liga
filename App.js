@@ -1,7 +1,7 @@
 import React from 'react';
 import {
   StyleSheet,
-  Modal,
+  Vibration,
   View
 } from 'react-native';
 import {
@@ -63,9 +63,21 @@ export default class App extends React.Component {
     }
 
     toggleTeam() {
+      Vibration.vibrate([
+        1000,
+        2000,
+        3000
+      ]);
       this.setState({
         teamVisible: !this.state.teamVisible
       });
+    }
+
+    displayTeam(equipo) {
+      this.setState({
+        selectedTeam: equipo
+      })
+      this.toggleTeam();
     }
     
     render() {
@@ -73,7 +85,7 @@ export default class App extends React.Component {
           <View>
             <Teams
               equipos={equipos}
-              onSelectTeam={ () => this.toggleTeam()}
+              onSelectTeam={equipo => this.displayTeam(equipo)}
             />
             <Team
               visible={this.state.teamVisible}
